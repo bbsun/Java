@@ -11,7 +11,7 @@
         <java.version>16</java.version>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
-  <sonar.projectKey>bbsun_NewJava</sonar.projectKey>
+  <sonar.projectKey>bbsun_Java</sonar.projectKey>
   <sonar.organization>bbsun</sonar.organization>
   <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 </properties>
