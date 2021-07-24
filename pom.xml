@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.qq.bbsunok</groupId>
+  <artifactId>GeoJava</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Bingbing Sun</name>
+  <description>Seismic Imaging and Inversion Using Java</description>
+  <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <java.version>16</java.version>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
+  <sonar.projectKey>bbsun_NewJava</sonar.projectKey>
+  <sonar.organization>bbsun</sonar.organization>
+  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+</properties>
+<dependencies>
+ <dependency>
+           <groupId>edu.mines.jtk</groupId>
+            <artifactId>edu-mines-jtk</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13.2</version>
+    <scope>test</scope>
+</dependency>
+</dependencies>
+</project>
