@@ -341,7 +341,7 @@ class Operation{
 		float [] ga = new float[n];
 		float [] gc = c.getGradient();
 		for(int i=0;i<n;i++) 
-			ga[i]=gc[0]/(float)n;
+			ga[i]=gc[0]/n;
 		a.setGradient(ga);
 	}
 	/**
