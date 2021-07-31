@@ -1,7 +1,5 @@
 package com.qq.bbsunok;
-
 import java.util.logging.Logger;
-
 /**
  * HelloWorld 
  * @author bbsun
