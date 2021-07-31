@@ -8,7 +8,7 @@ import edu.mines.jtk.util.ArrayMath;
  *
  */
 public class FastFourierTransform {
-	private static Logger _logger = Logger.getGlobal();
+	private static Logger logger = Logger.getGlobal();
 	private static final double PI=3.1415926;
 	/**
 	 *傅里叶变换类型。
@@ -157,7 +157,7 @@ public class FastFourierTransform {
 		info.append("\n");
 		for(float[] x: a) 
 			info.append(String.format("%12.4f,%12.4f \n", x[0],x[1]));
-		_logger.info(info.toString());
+		logger.info(info.toString());
 	}
 	/**
 	 * Bitreserve排序
