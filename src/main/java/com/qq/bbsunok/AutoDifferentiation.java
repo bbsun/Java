@@ -122,7 +122,7 @@ class Tensor{
 	 * @param start 当前张量是否属于最终计算出的张量，即其没有子对象。
 	 */
 	public void backward(boolean last) {
-		if(this.requiresGrad=false) 
+		if(this.requiresGrad==false) 
 			return;
 		if(last==true) {
 			int n = getDataShape();
@@ -337,7 +337,11 @@ class Operation{
 	 * @param c 均值运算中的输出c
 	 */
 	static void meanBackward(Tensor a, Tensor c) {
-		float [] ga = ArrayMath.div(rampfloat(1, 0, a.getDataShape()),a.getDataShape());
+		int n = a.getDataShape();
+		float [] ga = new float[n];
+		float [] gc = c.getGradient();
+		for(int i=0;i<n;i++) 
+			ga[i]=gc[0]/(float)n;
 		a.setGradient(ga);
 	}
 	/**
@@ -347,11 +351,15 @@ class Operation{
 	 * @param c 求和运算中的输出c
 	 */
 	static void sumBackward(Tensor a, Tensor c) {
-		float [] ga = rampfloat(1, 0, a.getDataShape());
+		int n = a.getDataShape();
+		float [] ga = new float[n];
+		float [] gc = c.getGradient();
+		for(int i=0;i<n;i++) 
+			ga[i]=gc[0];
 		a.setGradient(ga);
 	}
 	private static List<Tensor>  addPrecendets(Tensor a) {
-		List<Tensor> precedents = new ArrayList<Tensor>();
+		List<Tensor> precedents = new ArrayList<>();
 		precedents.add(a);
 		return precedents;
 	}
@@ -359,6 +367,8 @@ class Operation{
 		List<Tensor> precedents = addPrecendets(a);
 		precedents.add(b);
 		return precedents;
+	}
+	private Operation() {
 	}
 }
 /**
@@ -368,15 +378,15 @@ public class AutoDifferentiation {
 	public static void main(String[] args) {
 		Logger logger = Logger.getGlobal();
 		// 计算函数f=ax^2+bx+c,及其当x=1时的导数
-		Tensor a = new Tensor(new float[] {1.0f},true);
-		Tensor b = new Tensor(new float[] {-20.0f},false);
-		Tensor c = new Tensor(new float[] {3.0f},false);
-		Tensor x = new Tensor(new float[] {-345.0f},false);
-		Tensor two=new Tensor(new float[] {2.0f},false);
+		Tensor a = new Tensor(new float[] {1.0f,2.0f},true);
+		Tensor b = new Tensor(new float[] {-20.0f,3.0f},false);
+		Tensor c = new Tensor(new float[] {3.0f,4.0f},false);
+		Tensor x = new Tensor(new float[] {-345.0f,5.0f},false);
+		Tensor two=new Tensor(new float[] {2.0f,2.0f},false);
 		Tensor x2 = Operation.mul(x, x);
 		Tensor bx = Operation.mul(b, x);
 		Tensor ax2= Operation.mul(a,x2);
-		Tensor f  = Operation.add(Operation.add(ax2,bx),c);
+		Tensor f  = Operation.sum(Operation.add(Operation.add(ax2,bx),c));
 		Tensor gx = Operation.add(Operation.mul(Operation.mul(two,x),a),b);
 		f.backward(true);
 		logger.info("ax2="); dump(ax2.getData());
@@ -384,6 +394,6 @@ public class AutoDifferentiation {
 		logger.info("c=");   dump(c.getData());
 		logger.info("f=");   dump(f.getData());
 		logger.info("ga=");  dump(x.getGradient());
-		logger.info("ga(true)="); dump(gx.getData());
+		logger.info("ga(true)="); dump((gx).getData());
 	}
 }
