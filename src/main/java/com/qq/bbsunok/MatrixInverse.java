@@ -7,6 +7,10 @@ import java.util.logging.Logger;
  * @version 20210723
  */
 public class MatrixInverse {
+	/**
+	 * 求矩阵的逆矩阵
+	 * @param args 输入参数
+	 */
 	public static void main(String[] args) {
 		Logger logger = Logger.getGlobal();
 		logger.info("采用镶边法求矩阵的逆");
@@ -21,14 +25,13 @@ public class MatrixInverse {
 	/**
 	 * 计算矩阵的逆。
 	 * @param m 输入矩阵
-	 * @throws ArithemeticException 
 	 * @return 输入矩阵的逆矩阵
 	 */
 	public static DMatrix runInverse(DMatrix m) throws ArithmeticException {
 		int n1 = m.getRowCount();
 		int n2 = m.getColumnCount();
 		if(m.get(0,0)==0)
-			throw new ArithmeticException("矩阵第一行第一列元素需为非零元素。");
+			throw new ArithmeticException("矩阵矩阵第一行第一列元素需为非零元素.");
 		if(n1!=n2)
 			throw new ArithmeticException("矩阵需要为方阵。");
 		int n = n1;

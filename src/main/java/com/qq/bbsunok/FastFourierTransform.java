@@ -8,7 +8,13 @@ import edu.mines.jtk.util.ArrayMath;
  *
  */
 public class FastFourierTransform {
+	/**
+	 * Logging
+	 */
 	private static Logger logger = Logger.getGlobal();
+	/**
+	 * PI常数
+	 */
 	private static final double PI=3.1415926;
 	/**
 	 *傅里叶变换类型。
@@ -140,6 +146,10 @@ public class FastFourierTransform {
 		out = ArrayMath.mul(scale, in);
 		return out;
 	}
+	/**
+	 * 测试快速傅里叶变换
+	 * @param args 输入参数
+	 */
 	public static void main(String[] args) {
 		float[][] a = new float[][] {{0,0},{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0}};
 		printFloatAsComplex(a);

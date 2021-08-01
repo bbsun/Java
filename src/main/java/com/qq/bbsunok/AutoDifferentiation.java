@@ -150,7 +150,7 @@ class Tensor {
 	}
 	/**
 	 * 返回张量的名字
-	 * @return
+	 * @return 张量的名字
 	 */
 	public String getName() {
 		return name;
@@ -168,7 +168,7 @@ class Tensor {
 	/**
 	 * 设置运算类型
 	 * 
-	 * @param operationType
+	 * @param operationType 运算类型
 	 */
 	public void setOperation(OperationType operationType) {
 		this.operationType = operationType;
@@ -258,7 +258,7 @@ class Tensor {
 	/**
 	 * 进行梯度的反向传播
 	 * 
-	 * @param start 当前张量是否属于最终计算出的张量，即其没有子对象。
+	 * @param last 当前张量是否属于最终计算出的张量，即其没有子对象。
 	 */
 	public void backward(boolean last) {
 		if (this.requiresGrad == false)
@@ -400,7 +400,7 @@ class Operation {
 	/**
 	 * 赋值运算
 	 * 
-	 * @param 赋值运算的输入
+	 * @param a 赋值运算的输入
 	 * @return 赋值运算的输出
 	 */
 	static Tensor copy(Tensor a) {
@@ -547,8 +547,8 @@ class Operation {
 	/**
 	 * 对赋值运算反传梯度 对应的正运算为 c=a
 	 * 
-	 * @param a
-	 * @param c
+	 * @param a 赋值正向运算的输入
+	 * @param c 赋值正向运算的输出
 	 */
 	static void copyBackward(Tensor a, Tensor c) {
 		a.setGradient(c.getGradient());
@@ -557,8 +557,8 @@ class Operation {
 	/**
 	 * 对求反运算反传梯度 对应的正运算为 c=-a
 	 * 
-	 * @param a
-	 * @param c
+	 * @param a 求反运算的输入
+	 * @param c 求反运算的输出
 	 */
 	static void negBackward(Tensor a, Tensor c) {
 		a.setGradient(ArrayMath.mul(c.getGradient(), -1.0f));
@@ -650,19 +650,30 @@ class Operation {
 		a.setGradient(ga);
 	}
 
-	// Private
+	/**
+	 * 生成父对象列表
+	 * @param a 添加的父对象
+	 * @return 父对象列表
+	 */
 	private static List<Tensor> addPrecendets(Tensor a) {
 		List<Tensor> precedents = new ArrayList<>();
 		precedents.add(a);
 		return precedents;
 	}
-
+	/**
+	 * 生成父对象列表
+	 * @param a 添加的父对象
+	 * @param b 添加的父对象
+	 * @return 父对象列表
+	 */
 	private static List<Tensor> addPrecendets(Tensor a, Tensor b) {
 		List<Tensor> precedents = addPrecendets(a);
 		precedents.add(b);
 		return precedents;
 	}
-
+	/**
+	 * 私有构造器
+	 */
 	private Operation() {
 	}
 }
@@ -671,6 +682,10 @@ class Operation {
  * 测试自动微分
  */
 public class AutoDifferentiation {
+	/**
+	 * 测试自动微分
+	 * @param args 输入参数
+	 */
 	public static void main(String[] args) {
 		Logger logger = Logger.getGlobal();
 		// 计算函数f=ax^2+bx+c,及其当x=1时的导数
