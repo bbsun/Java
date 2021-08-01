@@ -221,9 +221,8 @@ class Tensor {
 	public void autoGrad(boolean last) {
 		if (last == true) {
 			int n = getDataShape();
-			float[] data = ArrayMath.rampfloat(1.0f, 0.0f, n);
-			Tensor g = new Tensor(data, false, null, null, "root0");
-			this.setGradientTensor(g);
+			float[] d = ArrayMath.rampfloat(1.0f, 0.0f, n);
+			this.setGradientTensor(new Tensor(d, false, null, null, "root0"));
 		}
 		if (this.operationType != null && this.precedents != null && this.getGradienTensor() != null) {
 			//System.out.println(this.operationType);
@@ -232,7 +231,7 @@ class Tensor {
 				Operation.negBackwardAuto(this.precedents.get(0), this);
 				break;
 			case EQUAL:
-				Operation.equalBackwardAuto(this.precedents.get(0), this);
+				Operation.copyBackwardAuto(this.precedents.get(0), this);
 				break;
 			case ADD:
 				Operation.addBackwardAuto(this.precedents.get(0), this.precedents.get(1), this);
@@ -283,7 +282,7 @@ class Tensor {
 					ArrayMath.dump(this.precedents.get(0).getGradient());*/
 				break;
 			case EQUAL:
-				Operation.equalBackward(this.precedents.get(0), this);
+				Operation.copyBackward(this.precedents.get(0), this);
 				/*System.out.print("\t");
 				System.out.print(this.precedents.get(0).getName());
 				if (this.precedents.get(0).getGradient() != null)
@@ -404,7 +403,7 @@ class Operation {
 	 * @param 赋值运算的输入
 	 * @return 赋值运算的输出
 	 */
-	static Tensor equal(Tensor a) {
+	static Tensor copy(Tensor a) {
 		float[] data = a.getData();
 		List<Tensor> precedents = addPrecendets(a);
 		return new Tensor(data, a.getRequiresGrad(), precedents, OperationType.EQUAL, "equal(" + a.getName() + ")");
@@ -508,8 +507,8 @@ class Operation {
 	 * @param a 赋值运算正向运算的输入
 	 * @param c 赋值运算正向运算的输出
 	 */
-	static void equalBackwardAuto(Tensor a, Tensor c) {
-		a.setGradientTensor(equal(c.getGradienTensor()));
+	static void copyBackwardAuto(Tensor a, Tensor c) {
+		a.setGradientTensor(copy(c.getGradienTensor()));
 	}
 
 	/**
@@ -530,8 +529,8 @@ class Operation {
 	 * @param c 加法运算正向运算的输出
 	 */
 	static void addBackwardAuto(Tensor a, Tensor b, Tensor c) {
-		a.setGradientTensor(equal(c.getGradienTensor()));
-		b.setGradientTensor(equal(c.getGradienTensor()));
+		a.setGradientTensor(copy(c.getGradienTensor()));
+		b.setGradientTensor(copy(c.getGradienTensor()));
 	}
 
 	/**
@@ -551,7 +550,7 @@ class Operation {
 	 * @param a
 	 * @param c
 	 */
-	static void equalBackward(Tensor a, Tensor c) {
+	static void copyBackward(Tensor a, Tensor c) {
 		a.setGradient(c.getGradient());
 	}
 
