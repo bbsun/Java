@@ -3,6 +3,7 @@ import java.util.logging.Logger;
 import edu.mines.jtk.util.ArrayMath;
 /**
  * 基于二分法的快速傅里叶变换。
+ * <p>
  * 输入数据的长度必须为2的整数幂。
  * @author bbsun
  *
