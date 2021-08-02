@@ -4,6 +4,7 @@ import edu.mines.jtk.util.ArrayMath;
 
 /**
  * 实现反馈滤波器,输入为最小相位滤波器的逆
+ * <p>
  * Y(Z)=X(Z)/A(Z), A(Z)为最小相位
  * @author bingbing sun
  * @version 2021.08.02
