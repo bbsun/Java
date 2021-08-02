@@ -1,10 +1,7 @@
 package com.qq.bbsunok;
 
 import javax.swing.JFrame;
-
-import edu.mines.jtk.dsp.Sampling;
 import edu.mines.jtk.mosaic.PointsView;
-import edu.mines.jtk.mosaic.SequenceView;
 import edu.mines.jtk.mosaic.SimplePlot;
 import edu.mines.jtk.util.ArrayMath;
 

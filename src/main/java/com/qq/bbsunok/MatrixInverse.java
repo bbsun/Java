@@ -50,7 +50,6 @@ public class MatrixInverse {
 		SimplePlot sp1 = new SimplePlot();
 		ArrayPlot.plot(out, "ro", sp1);
 		ArrayPlot.plot(a, "bo", sp1);
-		SimplePlot sp2 = new SimplePlot();
 		SimplePlot.asSequence(out);
 		SimplePlot.asSequence(a);
 		logger.info("采用镶边法求矩阵的逆");
