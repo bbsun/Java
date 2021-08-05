@@ -22,25 +22,28 @@ public class MatrixInverse {
 	public static void main(String[] args) {
 		Logger logger = Logger.getGlobal();
 		logger.info("采用Toeplitz法求最小相位信号\n");
-		int n = 2;
-		float[] a = new float[] { 1f, -0.5f };
+		int n = 5;
+		float[] a = new float[] { 1f, -0.5f, 2.0f,3.0f,-0.5f};
 		float[] z = new float[n];
-		int nFil = 20;
+		int nFil = 1000;
 		double[][] r = new double[nFil][1];
 		float[] app = new float[nFil];
 		float[] tru = new float[nFil];
-		Conv.xcor(2, 0, a, 2, 0, a, n, 0, z);
+		Conv.xcor(n, 0, a, n, 0, a, n, 0, z);
+		SimplePlot.asSequence(z);
 		for (int i = 0; i < n; i++)
 			r[i][0] = z[i];
+		
 		DMatrix b = new DMatrix(r);
 		logger.info(b.toString());
 		DMatrix invFil = runToeplitz(b);
-		logger.info(invFil.toString());
+		//logger.info(invFil.toString());
 		for (int i = 0; i < nFil; i++) {
 			app[i] = (float) invFil.get(i, 0);
-			tru[i] = (float) pow(1.0 / 2, i);
+			//tru[i] = (float) pow(1.0 / 2, i);
 		}
-		SimplePlot sp = new SimplePlot();
+		SimplePlot.asSequence(app);
+		/*SimplePlot sp = new SimplePlot();
 		ArrayPlot.plot(app, "r-", sp);
 		ArrayPlot.plot(tru, "b-", sp);
 		float[] in = new float[10];
@@ -59,9 +62,26 @@ public class MatrixInverse {
 		DMatrix im = runInverse(m);
 		info += ("\n 逆矩阵为\n" + im.toString());
 		info += (" \n 矩阵乘以其逆矩阵为 \n" + m.times(im).toString());
-		logger.info(info);
+		logger.info(info);*/
 	}
-
+	/**
+	 * 基于Toeplitz矩阵求解的谱分解算法
+	 * @param r 实信号的相关系数
+	 * @return 最小相位信号（的逆）
+	 */
+	public static float [] runToeplitz(float[] r) {
+		int n = r.length;
+		double[][] rd = new double[n][1];
+		float []    x = new float[n];
+		for (int i = 0; i < n; i++)
+			rd[i][0] = r[i];
+		DMatrix b = new DMatrix(rd);
+		DMatrix y = runToeplitz(b);
+		x[0] = (float) y.get(0,0);
+		for(int i=1;i<n;i++)
+			x[i] = (float) (y.get(i,0)*y.get(0,0));
+		return x;
+	}
 	/**
 	 * 基于Toeplitz矩阵求解的谱分解算法
 	 * 
@@ -78,13 +98,17 @@ public class MatrixInverse {
 			throw new ArithmeticException("矩阵r的第一个元素为非零");
 		double v = r.get(0, 0);
 		for (int i = 1; i < n; i++) {
+			DMatrix xt = new DMatrix(x);
 			double e = r.get(i, 0);
 			for (int j = 1; j <= (i - 1); j++)
-				e += x.get(j, 0) * r.get(i - j, 0);
+				e += xt.get(j, 0) * r.get(i - j, 0);
 			for (int j = 1; j < i; j++)
-				x.set(j, 0, x.get(j, 0) - e / v * x.get(i - j, 0));
+				x.set(j, 0, xt.get(j, 0) - e / v * xt.get(i - j, 0));
+			if(abs(e/v)>=1)
+				throw new ArithmeticException("e/v should always less then 1: e="+e+",v="+v+"\n i="+i);
 			x.set(i, 0, -e / v);
 			v = v * (1.0 - pow((e / v), 2.0));
+			
 		}
 		x.set(0, 0, 1.0 / sqrt(v));
 		return x;
