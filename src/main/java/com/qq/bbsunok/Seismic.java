@@ -61,10 +61,10 @@ public class Seismic {
 		SimpleFftComplex  sFft = new SimpleFftComplex(SimpleFftComplex.nfftSmall(n));
 		System.err.println(sFft.getNfft());
 		n = sFft.getNfft();
-		float [] b = new float[n];
-		//float [] b = wavelet(0.001f,n,10.0f,0.3f);
-		b[0]= 1.0f;
-		b[1]=-0.5f;
+		//float [] b = new float[n];
+		float [] b = wavelet(0.001f,n,10.0f,1.0f/10.0f);
+		//b[0]= 1.0f;
+		//b[1]=-0.5f;
 		//for(int i=0;i<n;i++)
 			//b[i] = (float) (pow(0.5,i))*1.0f;
 		SimplePlot.asSequence(b);
