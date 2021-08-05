@@ -26,7 +26,7 @@ public class SimpleFftComplex extends FftComplex{
 	 * @exception Exception 输入数组和输出数组的长度需要与实际计算使用的长度nfft一致.
 	 */
 	public void complexToComplex(int sign, float [] inputR, float [] inputI, float[] outputR, float[] outputI) throws Exception {
-		if (inputR.length!=this.getNfft() || inputI.length !=this.getNfft() || outputR.length!=this.getNfft()|| ouputI.length!=this.getNfft())
+		if (inputR.length!=this.getNfft() || inputI.length !=this.getNfft() || outputR.length!=this.getNfft()|| outputI.length!=this.getNfft())
 			throw new Exception("The length of input and output array should be equal to nfft \n!");
 		int n = inputR.length*2;
 		float [] in = new float[n];

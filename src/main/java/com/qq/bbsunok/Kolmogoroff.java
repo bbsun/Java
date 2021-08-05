@@ -37,7 +37,7 @@ public class Kolmogoroff {
 		for(int i=1;i<n;i++) {
 			float scale = (ts[i]<0)?0.0f:2.0f;
 			inputR[i] *= scale;
-			inputI[i] *= 0.0f;
+			inputI[i] *= scale;
 		}
 		spFft.complexToComplex(1, inputR, inputI, inputR, inputI);
 		//HilbertTransformFilter hlb = new HilbertTransformFilter(nmax,emax,fmin,fmax);
@@ -51,6 +51,10 @@ public class Kolmogoroff {
 			inputI[i] = cexp.i;
 		}
 		spFft.complexToComplex(-1, inputR, inputI, inputR, inputI);
+		for(int i=0;i<n;i++) {
+			float scale = (ts[i]<0)?0.0f:1.0f;
+			inputR[i]*=scale;
+		}
 		return inputR;
 	}
 	/**
@@ -90,6 +94,11 @@ public class Kolmogoroff {
 			inputI[i] = cexp.i;
 		}
 		spFft.complexToComplex(-1, inputR, inputI, inputR, inputI);
+		float [] ts = spFft.getTimeSampling(1.0f);
+		for(int i=0;i<n;i++) {
+			float scale = (ts[i]<0)?0.0f:1.0f;
+			inputR[i]*=scale;
+		}
 		return inputR;
 	}
 	/**
