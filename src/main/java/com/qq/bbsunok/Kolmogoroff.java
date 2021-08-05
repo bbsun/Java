@@ -25,13 +25,8 @@ public class Kolmogoroff {
 		float [] b = new float[n];
 		float [] inputR= new float[n];
 		float [] inputI= new float[n];
-		u = log(s);
-		//u = SimpleFftComplex.fftShift(u);
-		/*int   nmax = 100000; // default max length.
-		float emax = 0.0001f; // default max error.
-		float fmin = 0.001f; // default min frequency.
-		float fmax = 0.499f; // default max frequency.*/
-		inputR = mul(copy(u),0.5f);
+		u = mul(log(s),0.5f);
+		inputR = copy(u);
 		spFft.complexToComplex(-1, inputR, inputI, inputR, inputI);
 		float [] ts = spFft.getTimeSampling(1.0f);
 		for(int i=1;i<n;i++) {
@@ -40,10 +35,6 @@ public class Kolmogoroff {
 			inputI[i] *= scale;
 		}
 		spFft.complexToComplex(1, inputR, inputI, inputR, inputI);
-		//HilbertTransformFilter hlb = new HilbertTransformFilter(nmax,emax,fmin,fmax);
-		//hlb.apply(n, u, v);
-		//u = SimpleFftComplex.fftShiftInverse(u);
-		//v = SimpleFftComplex.fftShiftInverse(v);
 		for(int i=0;i<n;i++) {
 			Cfloat cc   = new Cfloat(inputR[i],inputI[i]);
 			Cfloat cexp = cc.exp();

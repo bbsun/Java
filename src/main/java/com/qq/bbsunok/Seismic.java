@@ -10,7 +10,7 @@ import edu.mines.jtk.mosaic.SimplePlot;
  * @author Bingbing Sun
  * @version 20210804
  */
-public class Seismic {
+public class Seismic {			
 	/**
 	 * 雷克子波
 	 * @param dt 采样
@@ -62,7 +62,7 @@ public class Seismic {
 		System.err.println(sFft.getNfft());
 		n = sFft.getNfft();
 		//float [] b = new float[n];
-		float [] b = wavelet(0.001f,n,10.0f,1.0f/10.0f);
+		float [] b = wavelet(0.001f,n,10.0f,0.3f);
 		//b[0]= 1.0f;
 		//b[1]=-0.5f;
 		//for(int i=0;i<n;i++)
