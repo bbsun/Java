@@ -12,6 +12,33 @@ import edu.mines.jtk.util.ArrayMath;
  */
 public class ArrayPlot {
 	/**
+	 * 对比画三个数据
+	 * @param y1 数据1
+	 * @param y2 数据2
+	 * @param y3 数据3
+	 * @param st1 数据1的线类型
+	 * @param st2 数据2的线类型
+	 * @param st3 数据3的线类型
+	 */
+	public static void comparePlot(float [] y1, float [] y2, float [] y3, String st1, String st2, String st3) {
+		SimplePlot sp = new SimplePlot();
+		plot(y1, st1, sp);
+		plot(y2, st2, sp);
+		plot(y3, st3, sp);
+	}
+	/**
+	 * 对比画两个数据
+	 * @param y1 数据1
+	 * @param y2 数据2
+	 * @param st1 数据1的线类型
+	 * @param st2 数据2的线类型
+	 */
+	public static void comparePlot(float [] y1, float [] y2, String st1, String st2) {
+		SimplePlot sp = new SimplePlot();
+		plot(y1, st1, sp);
+		plot(y2, st2, sp);
+	}
+	/**
 	 * 对一维单精度数组y绘图
 	 * @param y 输入的一维数组
 	 */
