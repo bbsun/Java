@@ -2,7 +2,8 @@ package com.qq.bbsunok;
 import java.util.Map;
 /**
  * 二维有限差分模拟程序
- * @author bbsun
+ * @author bingbing sun
+ * @version 20210805
  *
  */
 public class FiniteDifferenceModeling2D {
@@ -101,7 +102,7 @@ public class FiniteDifferenceModeling2D {
 	 * @param rx 接收点坐标（以网格点为单位）
 	 * @param rz 接受点坐标（以网格点为单位）
 	 * @param npml 吸收边界的网格点数
-	 * @param order 空间有限差分阶数，(2,4,6,8,10)
+	 * @param order 空间有限差分阶数，(4或8)
 	 * @param sou  震源子波
 	 * @param rec  地震记录
 	 * @param free 是否采用自由表面边界条件
